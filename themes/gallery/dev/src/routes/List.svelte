@@ -2,31 +2,36 @@
    import { onMount } from 'svelte';
 	import { beforeUpdate } from "svelte";
 	import Summary from "./Summary.svelte";
-	var baseUri = '../'; //https://monkofthefunk.github.io/Daijishou/themes/
-   let details = [];
-	let items;
    
-    onMount(async () => {
-   	fetch(`${baseUri}platform_wallpapers_packs/`)
+   let detail;
+	let items;
+   export let baseUri;
+   async function load() {
+      var buri = baseUri;
+   	detail = await fetch(`${buri}platform_wallpapers_packs/index.json`)
    		.then(r => r.json())
    		.then(data => {
+            let det;
    			items = data.platformWallpapersPackList;
            for (let index = 0; index < items.length; index++) {
-                 fetch(`${baseUri}platform_wallpapers_packs/${items[index].platformWallpapersPackRootPath}`)
+                 det = fetch(buri + 'platform_wallpapers_packs/' + items[index].platformWallpapersPackRootPath + '/index.json')
                     .then(r => r.json())
-                    .then(d => {
-                       details[items[index].platformWallpapersPackRootPath] = d;
+                    .then(data => {
+                       return data;
                     });
            }
 
-   			window.scrollTo(0, 0);
+   			return det;
    		});
-    });
+    }
+   onMount(load);
 </script>
+
+<svelte:window on:hashchange={load}/>
 
 {#if items}
 	{#each items as item}
-		<Summary {item} {details} {baseUri} />
+		<Summary {item} {detail} {baseUri} />
 	{/each}
 {:else}
 	<p class="loading">loading...</p>

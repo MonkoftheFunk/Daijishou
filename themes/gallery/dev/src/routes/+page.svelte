@@ -1,23 +1,25 @@
 <script>
+
 	import { onMount } from 'svelte';
 	import List from './List.svelte';
 	import Item from './Item.svelte';
 
-	let item;
-	var id; 
+   let baseUri = 'https://raw.githubusercontent.com/TapiocaFox/Daijishou/main/themes/';
+   let item;
+	let id; 
 	
 	async function hashchange() {
 		// the poor man's router!
 		const path = window.location.hash.slice(1);
 
 		if (path.startsWith('/theme')) {
-			window.id = path.slice(6);
-			item = await fetch(`${baseUri}platform_wallpapers_packs/${window.id}`).then(r => r.json());
+			id = path.slice(6);
+			item = await fetch(`${baseUri}platform_wallpapers_packs${id}/index.json`).then(r => r.json());
 
 			window.scrollTo(0,0);
 		} else if (path.startsWith('/')) {
 			item = null;
-			window.id = null;
+			id = null;
 		}
 	}
 
@@ -28,9 +30,9 @@
 
 <main>
 	{#if item}
-		<Item {item} returnTo="#/top/"/>
+		<Item {id} {item} {baseUri} returnTo="#/"/>
 	{:else }
-		<List/>
+		<List {baseUri} />
 	{/if}
 </main>
 

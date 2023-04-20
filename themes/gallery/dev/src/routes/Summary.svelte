@@ -1,8 +1,15 @@
 <script>
 	export let item;
-   export var baseUri;
-   export let details;
-   let detail = details[item.platformWallpapersPackRootPath];
+   export let baseUri;
+   export let detail;
+   let preview;
+   if (detail && detail.wallpaperList && detail.wallpaperList.length) {
+      for (let wallpaper of detail.wallpaperList) {
+         if (wallpaper.filename != '') {
+            preview = wallpaper.filename;
+         }
+      }
+   }
 </script>
 
 <article>
@@ -11,8 +18,8 @@
 	{item.platformWallpapersPackName}</a></h2>
 	<p>{item.platformWallpapersPackDescription}</p>
    <p class="meta">by {item.platformWallpapersPackAuthors}</p>
-   {#if detail && detail.wallpaperList && detail.wallpaperList.length}
-          <img src="{baseUri}platform_wallpapers_packs/{item.platformWallpapersPackRootPath}/{detail.wallpaperList[0].filename}" alt="{item.platformWallpapersPackName}"/>
+   {#if preview}
+          <img src="{baseUri}platform_wallpapers_packs/{item.platformWallpapersPackRootPath}/{preview}" alt="<not found>"/>
    {/if}
 </article>
 
