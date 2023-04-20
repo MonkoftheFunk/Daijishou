@@ -34,12 +34,4 @@
 		font-size: 1.4em;
 		margin: 0;
 	}
-	
-	img {
-		max-width: 800px;
-	}
-
-   img.thumb {
-		height: 64px
-	}
 </style>

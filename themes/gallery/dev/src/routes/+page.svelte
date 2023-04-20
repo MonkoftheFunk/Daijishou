@@ -4,8 +4,7 @@
 	import Item from './Item.svelte';
 
 	let item;
-	var baseUri;
-	var id;
+	var id; 
 	
 	async function hashchange() {
 		// the poor man's router!
@@ -13,7 +12,7 @@
 
 		if (path.startsWith('/theme')) {
 			window.id = path.slice(6);
-			item = await fetch(`../platform_wallpapers_packs/${window.id}`).then(r => r.json());
+			item = await fetch(`${baseUri}platform_wallpapers_packs/${window.id}`).then(r => r.json());
 
 			window.scrollTo(0,0);
 		} else if (path.startsWith('/')) {
@@ -56,4 +55,13 @@
 	main :global(a) {
 		color: fuchsia;
 	}
+
+   main :global(image) {
+      max-width: 800px;
+   }
+
+   main :global(image.thumb) {
+      max-width: 64px;
+   }
+   
 </style>
