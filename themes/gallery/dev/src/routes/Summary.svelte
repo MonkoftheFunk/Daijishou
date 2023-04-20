@@ -1,13 +1,19 @@
 <script>
 	export let item;
+   export var baseUri;
+   export let details;
+   let detail = details[item.platformWallpapersPackRootPath];
 </script>
 
 <article>
 	<h2><a href=#/theme/{item.platformWallpapersPackRootPath}>
-       <img src="{window.baseUri}{item.platformWallpapersPackPreviewThumbnailPath}" alt="{item.platformWallpapersPackName}"/>
+       <img src="{baseUri}platform_wallpapers_packs/{item.platformWallpapersPackPreviewThumbnailPath}" alt="{item.platformWallpapersPackName}"/>
 	{item.platformWallpapersPackName}</a></h2>
 	<p>{item.platformWallpapersPackDescription}</p>
    <p class="meta">by {item.platformWallpapersPackAuthors}</p>
+   {#if detail && detail.wallpaperList && detail.wallpaperList.length}
+          <img src="{baseUri}platform_wallpapers_packs/{item.platformWallpapersPackRootPath}/{detail.wallpaperList[0].filename}" alt="{item.platformWallpapersPackName}"/>
+   {/if}
 </article>
 
 <style>
